@@ -1,34 +1,36 @@
-from rest_framework.serializers import ModelSerializer, HyperlinkedModelSerializer, HyperlinkedIdentityField
+from rest_framework.serializers import (
+    HyperlinkedIdentityField,
+    HyperlinkedModelSerializer,
+    ModelSerializer,
+)
 
-from apps.models import Page, Audio, Video, Text
+from apps.models import Audio, Page, Text, Video
 
 
 class PageListSerializer(HyperlinkedModelSerializer):
-    url = HyperlinkedIdentityField(
-        view_name="apps:page-detail", read_only=True
-    )
+    url = HyperlinkedIdentityField(view_name="apps:page-detail", read_only=True)
 
     class Meta:
         model = Page
-        fields = ('id', 'url')
+        fields = ("id", "url")
 
 
 class AudioModelSerializer(ModelSerializer):
     class Meta:
         model = Audio
-        fields = '__all__'
+        fields = "__all__"
 
 
 class VideoModelSerializer(ModelSerializer):
     class Meta:
         model = Video
-        fields = '__all__'
+        fields = "__all__"
 
 
 class TextModelSerializer(ModelSerializer):
     class Meta:
         model = Text
-        fields = '__all__'
+        fields = "__all__"
 
 
 class PageDetailSerializer(ModelSerializer):
@@ -38,4 +40,4 @@ class PageDetailSerializer(ModelSerializer):
 
     class Meta:
         model = Page
-        fields = ('id', 'title', 'audios', 'videos', 'texts')
+        fields = ("id", "title", "audios", "videos", "texts")

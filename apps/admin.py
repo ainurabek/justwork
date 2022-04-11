@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from apps.models import Audio, Page, Video, Text
+from apps.models import Audio, Page, Text, Video
 
 
 class VideoAdmin(admin.StackedInline):
@@ -17,9 +17,10 @@ class TextAdmin(admin.StackedInline):
 
 class PageAdmin(admin.ModelAdmin):
     inlines = [AudioAdmin, VideoAdmin, TextAdmin]
-    search_fields = ['title', 'videos__title', 'audios__title', 'texts__title']
+    search_fields = ["title", "videos__title", "audios__title", "texts__title"]
 
     class Meta:
         model = Page
+
 
 admin.site.register(Page, PageAdmin)

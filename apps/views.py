@@ -1,6 +1,8 @@
 from rest_framework import generics
+
 from apps.models import Page
-from apps.serializers import PageListSerializer, PageDetailSerializer
+from apps.serializers import PageDetailSerializer, PageListSerializer
+
 from .tasks import update_counter
 
 
@@ -15,5 +17,5 @@ class PageDetaileView(generics.RetrieveAPIView):
     serializer_class = PageDetailSerializer
 
     def get(self, request, *args, **kwargs):
-        update_counter.delay(self.kwargs['pk'])
+        update_counter.delay(self.kwargs["pk"])
         return self.retrieve(request, *args, **kwargs)
