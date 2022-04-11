@@ -24,8 +24,6 @@
 * POSTGRES_PASSWORD: пароль базы данных
 
 
-Пример смотреть в .env
-
 ## Зависимости:
 Все зависимости в `requirements.txt`
 
@@ -33,6 +31,6 @@
 * docker-compose up --build
 * Запуск кода `docker-compose up runserver`
 
-##API
+## API
 * Все страницы (GET) - http://127.0.0.1:8000/apps/pages?page=1 - по 100 обьектов
 * Детальная информация одной страницы (GET) - http://127.0.0.1:8000/apps/page/1 - при вызове данного API срабатывает celery task
