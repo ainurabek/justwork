@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_DB=justwork
+      - POSTGRES_USER=ainura
+      - POSTGRES_PASSWORD=ainura123
+      - DB_HOST=db
+    restart: "on-failure"
+  runserver:
+    build: .
+    command:
+      bash -c "python manage.py migrate --no-input
+      && python manage.py collectstatic --no-input
+      && gunicorn project.wsgi:application --bind 0.0.0.0:8000"
+
+    volumes:
+      - static_volume:/oun/staticfiles
+      - media_volume:/oun/mediafiles
+    environment:
+      - DEBUG=1
+      - DB_HOST=db
+      - SECRET_KEY='^k@zhfum7=h^4fi7s0y!!x0oo+%qad4j&(+rzc#7qax5g%'
+      - DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 0.0.0.0 [::1]
+    ports:
+      - 8000:8000
+    depends_on:
+      - db
+      - redis
+  redis:
+    image: redis:alpine
+  celery:
+    build: .
+    command: celery -A run_celery worker -l info
+    environment:
+      - DEBUG=1
+      - SECRET_KEY='^k@zhfum7=h^4fi7s0y!!x0oo+%qad4j&(+rzc#7qax5g%'
+      - DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 0.0.0.0 [::1]
+    depends_on:
+      - redis
+
+volumes:
+  postgres_data:
+  static_volume:
+  media_volume:
